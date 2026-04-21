@@ -1,26 +1,59 @@
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import { z } from "zod";
+import { rateLimit } from "@/lib/rate-limit";
+
+const testSchema = z.object({
+  apiKey: z.string().max(128).optional(),
+  promptTemplate: z.string().min(1, "Prompt template is required").max(50000),
+  variableValues: z
+    .record(z.string(), z.string().max(10000))
+    .refine((obj) => Object.keys(obj).length <= 50, "Maximum 50 variables allowed")
+    .optional()
+    .default({}),
+});
 
 export async function POST(request: NextRequest) {
+  // Rate limiting
+  const forwarded = request.headers.get("x-forwarded-for");
+  const ip = (forwarded ? forwarded.split(",")[0].trim() : request.headers.get("x-real-ip")) ?? "unknown";
+  const { success, remaining, resetAt } = rateLimit(ip, { maxRequests: 15, windowMs: 60_000 });
+  if (!success) {
+    return NextResponse.json(
+      { error: "Rate limit exceeded. Please try again later." },
+      { status: 429, headers: { "X-RateLimit-Remaining": "0", "X-RateLimit-Reset": String(resetAt) } },
+    );
+  }
+
   try {
     const body = await request.json();
-    const { apiKey, promptTemplate, variableValues } = body as {
-      apiKey: string;
-      promptTemplate: string;
-      variableValues: Record<string, string>;
-    };
+    const parsed = testSchema.safeParse(body);
 
-    if (!apiKey || !promptTemplate) {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: "apiKey and promptTemplate are required" },
+        { error: "Invalid request", details: parsed.error.issues.map((i) => i.message) },
+        { status: 400 },
+      );
+    }
+
+    const { apiKey, promptTemplate, variableValues } = parsed.data;
+
+    const resolvedApiKey = apiKey || process.env.FIREWORKS_API_KEY;
+
+    if (!resolvedApiKey) {
+      return NextResponse.json(
+        {
+          error:
+            "API key is required. Provide it in the UI or set FIREWORKS_API_KEY in .env.local",
+        },
         { status: 400 },
       );
     }
 
     let filledPrompt = promptTemplate;
-    if (variableValues) {
-      for (const [key, value] of Object.entries(variableValues)) {
-        filledPrompt = filledPrompt.replaceAll(`{${key}}`, value);
-      }
+    for (const [key, value] of Object.entries(variableValues)) {
+      filledPrompt = filledPrompt.replaceAll(`{$${key}}`, value);
+      filledPrompt = filledPrompt.replaceAll(`{${key}}`, value);
     }
 
     const response = await fetch(
@@ -28,7 +61,7 @@ export async function POST(request: NextRequest) {
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${apiKey}`,
+          Authorization: `Bearer ${resolvedApiKey}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -41,18 +74,25 @@ export async function POST(request: NextRequest) {
 
     if (!response.ok) {
       const errorText = await response.text();
+      console.error("[test] Fireworks API error:", response.status, errorText);
       return NextResponse.json(
-        { error: `Fireworks API error: ${response.status}`, detail: errorText },
-        { status: response.status },
+        { error: `Upstream API error (${response.status}). Please try again.` },
+        { status: 502 },
       );
     }
 
     const data = await response.json();
     const content = data.choices?.[0]?.message?.content ?? "";
 
-    return NextResponse.json({ content });
+    return NextResponse.json(
+      { content },
+      { headers: { "X-RateLimit-Remaining": String(remaining) } },
+    );
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Unknown error";
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.error("[test] Internal error:", error);
+    return NextResponse.json(
+      { error: "An internal error occurred. Please try again." },
+      { status: 500 },
+    );
   }
 }
