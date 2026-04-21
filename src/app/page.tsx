@@ -110,15 +110,20 @@ export default function Home() {
   const displayVar = (v: string) => (v.startsWith("$") ? v.slice(1) : v);
 
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-zinc-950">
+    <div className="min-h-screen flex flex-col relative">
+      {/* Fixed gradient background */}
+      <div className="fixed inset-0 bg-gradient-to-br from-slate-950 via-blue-950 to-teal-950 -z-10" />
+      {/* Subtle animated gradient overlay for slow shift effect */}
+      <div className="fixed inset-0 bg-gradient-to-tl from-teal-900/20 via-transparent to-blue-900/20 -z-10 animate-pulse" />
+
       {/* Header */}
-      <header className="border-b border-zinc-200 dark:border-zinc-800 px-6 py-4">
+      <header className="border-b border-white/[0.08] px-6 py-4 backdrop-blur-md bg-white/[0.03]">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold text-zinc-900 dark:text-zinc-50">
+            <h1 className="text-xl font-bold text-zinc-50">
               Metaprompt
             </h1>
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+            <p className="text-sm text-zinc-400">
               Powered by GLM 5.1 on Fireworks AI
             </p>
           </div>
@@ -126,42 +131,42 @@ export default function Home() {
             href="https://fireworks.ai"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors"
+            className="text-sm text-zinc-400 hover:text-cyan-400 transition-colors"
           >
             fireworks.ai
           </a>
         </div>
       </header>
 
-      <main className="flex-1 px-6 py-8">
+      <main className="flex-1 px-6 py-8 relative">
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Error banner */}
           {error && (
-            <div className="rounded-lg border border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950 px-4 py-3 text-sm text-red-700 dark:text-red-300">
+            <div className="rounded-2xl border border-red-500/20 bg-red-950/40 backdrop-blur-xl px-4 py-3 text-sm text-red-300 font-medium">
               {error}
             </div>
           )}
 
           {/* Step 1: Input */}
-          <section className="space-y-4">
-            <div className="flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-zinc-900 text-xs font-bold text-white dark:bg-zinc-50 dark:text-zinc-900">
+          <section className="rounded-2xl border border-white/[0.12] bg-white/[0.07] backdrop-blur-xl p-6 space-y-4">
+            <div className="flex items-center gap-3">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500/20 border border-cyan-400/30 text-xs font-bold text-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.4)]">
                 1
               </span>
-              <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+              <h2 className="text-lg font-semibold text-zinc-100">
                 Describe your task
               </h2>
             </div>
 
-            <div className="space-y-3 pl-9">
+            <div className="space-y-3 pl-11">
               {/* API Key */}
               <div>
                 <label
                   htmlFor="apiKey"
-                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1"
+                  className="block text-sm font-medium text-zinc-300 mb-1.5"
                 >
                   Fireworks AI API Key{" "}
-                  <span className="text-zinc-400 font-normal">
+                  <span className="text-zinc-500 font-normal">
                     (optional if set in .env.local)
                   </span>
                 </label>
@@ -171,7 +176,7 @@ export default function Home() {
                   value={apiKey}
                   onChange={(e) => setApiKey(e.target.value)}
                   placeholder="fw-..."
-                  className="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-50 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 dark:focus:ring-zinc-50"
+                  className="w-full rounded-xl border border-white/[0.12] bg-white/[0.05] px-3.5 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/30 transition-colors"
                 />
               </div>
 
@@ -179,7 +184,7 @@ export default function Home() {
               <div>
                 <label
                   htmlFor="task"
-                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1"
+                  className="block text-sm font-medium text-zinc-300 mb-1.5"
                 >
                   Task Description
                 </label>
@@ -189,7 +194,7 @@ export default function Home() {
                   onChange={(e) => setTask(e.target.value)}
                   placeholder="e.g. Draft an email responding to a customer complaint"
                   rows={3}
-                  className="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-50 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 dark:focus:ring-zinc-50 resize-y"
+                  className="w-full rounded-xl border border-white/[0.12] bg-white/[0.05] px-3.5 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/30 resize-y transition-colors"
                 />
               </div>
 
@@ -197,10 +202,10 @@ export default function Home() {
               <div>
                 <label
                   htmlFor="variables"
-                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1"
+                  className="block text-sm font-medium text-zinc-300 mb-1.5"
                 >
                   Input Variables{" "}
-                  <span className="text-zinc-400 font-normal">
+                  <span className="text-zinc-500 font-normal">
                     (optional, comma-separated — leave empty to let the model choose)
                   </span>
                 </label>
@@ -209,14 +214,15 @@ export default function Home() {
                   value={variables}
                   onChange={(e) => setVariables(e.target.value)}
                   placeholder="e.g. CUSTOMER_EMAIL, COMPANY_NAME"
-                  className="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-50 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 dark:focus:ring-zinc-50"
+                  className="w-full rounded-xl border border-white/[0.12] bg-white/[0.05] px-3.5 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/30 transition-colors"
                 />
               </div>
 
               <button
+                type="button"
                 onClick={handleGenerate}
                 disabled={generating || !task.trim()}
-                className="rounded-lg bg-zinc-900 dark:bg-zinc-50 px-4 py-2 text-sm font-medium text-white dark:text-zinc-900 hover:bg-zinc-700 dark:hover:bg-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                className="rounded-xl bg-cyan-500/20 border border-cyan-400/30 px-5 py-2.5 text-sm font-semibold text-cyan-300 hover:bg-cyan-500/30 hover:border-cyan-400/50 hover:text-cyan-200 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-[0_0_16px_rgba(6,182,212,0.15)]"
               >
                 {generating ? "Generating..." : "Generate Prompt Template"}
               </button>
@@ -225,27 +231,27 @@ export default function Home() {
 
           {/* Step 2: Generated Prompt */}
           {(step === "generated" || step === "testing") && promptTemplate && (
-            <section className="space-y-4">
-              <div className="flex items-center gap-2">
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-zinc-900 text-xs font-bold text-white dark:bg-zinc-50 dark:text-zinc-900">
+            <section className="rounded-2xl border border-white/[0.12] bg-white/[0.07] backdrop-blur-xl p-6 space-y-4">
+              <div className="flex items-center gap-3">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500/20 border border-cyan-400/30 text-xs font-bold text-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.4)]">
                   2
                 </span>
-                <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+                <h2 className="text-lg font-semibold text-zinc-100">
                   Generated Prompt Template
                 </h2>
               </div>
 
-              <div className="pl-9 space-y-3">
+              <div className="pl-11 space-y-3">
                 {/* Variables found */}
                 {extractedVars.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    <span className="text-sm text-zinc-500 dark:text-zinc-400">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-sm text-zinc-400">
                       Variables:
                     </span>
                     {extractedVars.map((v) => (
                       <span
                         key={v}
-                        className="inline-flex items-center rounded-full bg-zinc-100 dark:bg-zinc-800 px-2.5 py-0.5 text-xs font-mono font-medium text-zinc-700 dark:text-zinc-300"
+                        className="inline-flex items-center rounded-full bg-white/[0.08] border border-white/[0.15] px-2.5 py-0.5 text-xs font-mono font-medium text-cyan-300"
                       >
                         {`{${displayVar(v)}}`}
                       </span>
@@ -254,19 +260,19 @@ export default function Home() {
                 )}
 
                 {/* Prompt template display */}
-                <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-4">
-                  <pre className="whitespace-pre-wrap text-sm text-zinc-800 dark:text-zinc-200 font-mono leading-relaxed overflow-x-auto">
+                <div className="rounded-xl border border-white/[0.08] bg-black/30 p-4">
+                  <pre className="whitespace-pre-wrap text-sm text-zinc-200 font-mono leading-relaxed overflow-x-auto">
                     {promptTemplate}
                   </pre>
                 </div>
 
                 {/* Toggle raw response */}
                 <details className="group">
-                  <summary className="text-sm text-zinc-500 dark:text-zinc-400 cursor-pointer hover:text-zinc-700 dark:hover:text-zinc-300">
+                  <summary className="text-sm text-zinc-400 cursor-pointer hover:text-cyan-400 transition-colors">
                     Show raw model response
                   </summary>
-                  <div className="mt-2 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-4">
-                    <pre className="whitespace-pre-wrap text-xs text-zinc-600 dark:text-zinc-400 font-mono leading-relaxed overflow-x-auto">
+                  <div className="mt-2 rounded-xl border border-white/[0.08] bg-black/30 p-4">
+                    <pre className="whitespace-pre-wrap text-xs text-zinc-400 font-mono leading-relaxed overflow-x-auto">
                       {rawResponse}
                     </pre>
                   </div>
@@ -277,27 +283,27 @@ export default function Home() {
 
           {/* Step 3: Test */}
           {(step === "generated" || step === "testing") && promptTemplate && (
-            <section className="space-y-4">
-              <div className="flex items-center gap-2">
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-zinc-900 text-xs font-bold text-white dark:bg-zinc-50 dark:text-zinc-900">
+            <section className="rounded-2xl border border-white/[0.12] bg-white/[0.07] backdrop-blur-xl p-6 space-y-4">
+              <div className="flex items-center gap-3">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500/20 border border-cyan-400/30 text-xs font-bold text-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.4)]">
                   3
                 </span>
-                <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+                <h2 className="text-lg font-semibold text-zinc-100">
                   Test your prompt
                 </h2>
               </div>
 
-              <div className="pl-9 space-y-3">
+              <div className="pl-11 space-y-3">
                 {extractedVars.length > 0 ? (
                   <div className="space-y-3">
-                    <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                    <p className="text-sm text-zinc-400">
                       Fill in values for each variable to test the prompt:
                     </p>
                     {extractedVars.map((v) => (
                       <div key={v}>
                         <label
                           htmlFor={`var-${v}`}
-                          className="block text-sm font-medium font-mono text-zinc-700 dark:text-zinc-300 mb-1"
+                          className="block text-sm font-medium font-mono text-cyan-300 mb-1.5"
                         >
                           {`{${displayVar(v)}}`}
                         </label>
@@ -312,21 +318,22 @@ export default function Home() {
                           }
                           placeholder={`Enter value for ${displayVar(v)}`}
                           rows={2}
-                          className="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-50 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 dark:focus:ring-zinc-50 resize-y"
+                          className="w-full rounded-xl border border-white/[0.12] bg-white/[0.05] px-3.5 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/30 resize-y transition-colors"
                         />
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                  <p className="text-sm text-zinc-400">
                     No variables detected. The prompt will be sent as-is.
                   </p>
                 )}
 
                 <button
+                  type="button"
                   onClick={handleTest}
                   disabled={testing}
-                  className="rounded-lg bg-zinc-900 dark:bg-zinc-50 px-4 py-2 text-sm font-medium text-white dark:text-zinc-900 hover:bg-zinc-700 dark:hover:bg-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                  className="rounded-xl bg-cyan-500/20 border border-cyan-400/30 px-5 py-2.5 text-sm font-semibold text-cyan-300 hover:bg-cyan-500/30 hover:border-cyan-400/50 hover:text-cyan-200 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-[0_0_16px_rgba(6,182,212,0.15)]"
                 >
                   {testing ? "Running..." : "Test Prompt"}
                 </button>
@@ -334,11 +341,11 @@ export default function Home() {
                 {/* Test result */}
                 {testResult && (
                   <div className="space-y-2">
-                    <h3 className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+                    <h3 className="text-sm font-semibold text-zinc-300">
                       Model Output
                     </h3>
-                    <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-4">
-                      <pre className="whitespace-pre-wrap text-sm text-zinc-800 dark:text-zinc-200 font-mono leading-relaxed overflow-x-auto">
+                    <div className="rounded-xl border border-white/[0.08] bg-black/30 p-4">
+                      <pre className="whitespace-pre-wrap text-sm text-zinc-200 font-mono leading-relaxed overflow-x-auto">
                         {testResult}
                       </pre>
                     </div>
@@ -349,11 +356,11 @@ export default function Home() {
           )}
 
           {/* Info section */}
-          <section className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-6 space-y-3">
-            <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+          <section className="rounded-2xl border border-white/[0.10] bg-white/[0.05] backdrop-blur-xl p-6 space-y-3">
+            <h3 className="text-sm font-semibold text-zinc-100">
               How it works
             </h3>
-            <ul className="text-sm text-zinc-600 dark:text-zinc-400 space-y-1 list-disc list-inside">
+            <ul className="text-sm text-zinc-400 space-y-1.5 list-disc list-inside">
               <li>
                 Enter a task description and optionally specify input variable
                 names
@@ -363,7 +370,7 @@ export default function Home() {
                 generating a structured prompt template
               </li>
               <li>
-                Variables like <code className="font-mono text-xs bg-zinc-200 dark:bg-zinc-700 px-1 rounded">{`{DOCUMENT}`}</code> become
+                Variables like <code className="font-mono text-xs bg-white/[0.08] border border-white/[0.12] text-cyan-300 px-1.5 py-0.5 rounded-md">{`{DOCUMENT}`}</code> become
                 placeholders you can fill in when testing
               </li>
               <li>
@@ -376,8 +383,8 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-zinc-200 dark:border-zinc-800 px-6 py-4">
-        <div className="max-w-4xl mx-auto text-center text-xs text-zinc-400 dark:text-zinc-600">
+      <footer className="border-t border-white/[0.06] px-6 py-4">
+        <div className="max-w-4xl mx-auto text-center text-xs text-zinc-500">
           Based on the Anthropic Metaprompt notebook. Adapted for Fireworks AI.
         </div>
       </footer>
