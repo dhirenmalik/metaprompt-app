@@ -131,7 +131,7 @@ export default function Home() {
             href="https://fireworks.ai"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm text-zinc-400 hover:text-cyan-400 transition-colors"
+            className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
           >
             fireworks.ai
           </a>
@@ -150,7 +150,7 @@ export default function Home() {
           {/* Step 1: Input */}
           <section className="rounded-2xl border border-white/[0.12] bg-white/[0.07] backdrop-blur-xl p-6 space-y-4">
             <div className="flex items-center gap-3">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500/20 border border-cyan-400/30 text-xs font-bold text-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.4)]">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 border border-white/20 text-xs font-bold text-white shadow-[0_0_12px_rgba(255,255,255,0.15)]">
                 1
               </span>
               <h2 className="text-lg font-semibold text-zinc-100">
@@ -176,7 +176,7 @@ export default function Home() {
                   value={apiKey}
                   onChange={(e) => setApiKey(e.target.value)}
                   placeholder="fw-..."
-                  className="w-full rounded-xl border border-white/[0.12] bg-white/[0.05] px-3.5 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/30 transition-colors"
+                  className="w-full rounded-xl border border-white/[0.12] bg-white/[0.05] px-3.5 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/20 transition-colors"
                 />
               </div>
 
@@ -194,7 +194,7 @@ export default function Home() {
                   onChange={(e) => setTask(e.target.value)}
                   placeholder="e.g. Draft an email responding to a customer complaint"
                   rows={3}
-                  className="w-full rounded-xl border border-white/[0.12] bg-white/[0.05] px-3.5 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/30 resize-y transition-colors"
+                  className="w-full rounded-xl border border-white/[0.12] bg-white/[0.05] px-3.5 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/20 resize-y transition-colors"
                 />
               </div>
 
@@ -214,7 +214,7 @@ export default function Home() {
                   value={variables}
                   onChange={(e) => setVariables(e.target.value)}
                   placeholder="e.g. CUSTOMER_EMAIL, COMPANY_NAME"
-                  className="w-full rounded-xl border border-white/[0.12] bg-white/[0.05] px-3.5 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/30 transition-colors"
+                  className="w-full rounded-xl border border-white/[0.12] bg-white/[0.05] px-3.5 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/20 transition-colors"
                 />
               </div>
 
@@ -222,7 +222,7 @@ export default function Home() {
                 type="button"
                 onClick={handleGenerate}
                 disabled={generating || !task.trim()}
-                className="rounded-xl bg-cyan-500/20 border border-cyan-400/30 px-5 py-2.5 text-sm font-semibold text-cyan-300 hover:bg-cyan-500/30 hover:border-cyan-400/50 hover:text-cyan-200 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-[0_0_16px_rgba(6,182,212,0.15)]"
+                className="rounded-xl bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/20 hover:border-white/30 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-[0_0_16px_rgba(255,255,255,0.08)]"
               >
                 {generating ? "Generating..." : "Generate Prompt Template"}
               </button>
@@ -233,7 +233,7 @@ export default function Home() {
           {(step === "generated" || step === "testing") && promptTemplate && (
             <section className="rounded-2xl border border-white/[0.12] bg-white/[0.07] backdrop-blur-xl p-6 space-y-4">
               <div className="flex items-center gap-3">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500/20 border border-cyan-400/30 text-xs font-bold text-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.4)]">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 border border-white/20 text-xs font-bold text-white shadow-[0_0_12px_rgba(255,255,255,0.15)]">
                   2
                 </span>
                 <h2 className="text-lg font-semibold text-zinc-100">
@@ -251,7 +251,7 @@ export default function Home() {
                     {extractedVars.map((v) => (
                       <span
                         key={v}
-                        className="inline-flex items-center rounded-full bg-white/[0.08] border border-white/[0.15] px-2.5 py-0.5 text-xs font-mono font-medium text-cyan-300"
+                        className="inline-flex items-center rounded-full bg-white/[0.08] border border-white/[0.15] px-2.5 py-0.5 text-xs font-mono font-medium text-zinc-200"
                       >
                         {`{${displayVar(v)}}`}
                       </span>
@@ -268,7 +268,7 @@ export default function Home() {
 
                 {/* Toggle raw response */}
                 <details className="group">
-                  <summary className="text-sm text-zinc-400 cursor-pointer hover:text-cyan-400 transition-colors">
+                  <summary className="text-sm text-zinc-400 cursor-pointer hover:text-zinc-200 transition-colors">
                     Show raw model response
                   </summary>
                   <div className="mt-2 rounded-xl border border-white/[0.08] bg-black/30 p-4">
@@ -285,7 +285,7 @@ export default function Home() {
           {(step === "generated" || step === "testing") && promptTemplate && (
             <section className="rounded-2xl border border-white/[0.12] bg-white/[0.07] backdrop-blur-xl p-6 space-y-4">
               <div className="flex items-center gap-3">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500/20 border border-cyan-400/30 text-xs font-bold text-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.4)]">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 border border-white/20 text-xs font-bold text-white shadow-[0_0_12px_rgba(255,255,255,0.15)]">
                   3
                 </span>
                 <h2 className="text-lg font-semibold text-zinc-100">
@@ -303,7 +303,7 @@ export default function Home() {
                       <div key={v}>
                         <label
                           htmlFor={`var-${v}`}
-                          className="block text-sm font-medium font-mono text-cyan-300 mb-1.5"
+                          className="block text-sm font-medium font-mono text-zinc-200 mb-1.5"
                         >
                           {`{${displayVar(v)}}`}
                         </label>
@@ -318,7 +318,7 @@ export default function Home() {
                           }
                           placeholder={`Enter value for ${displayVar(v)}`}
                           rows={2}
-                          className="w-full rounded-xl border border-white/[0.12] bg-white/[0.05] px-3.5 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/30 resize-y transition-colors"
+                          className="w-full rounded-xl border border-white/[0.12] bg-white/[0.05] px-3.5 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/20 resize-y transition-colors"
                         />
                       </div>
                     ))}
@@ -333,7 +333,7 @@ export default function Home() {
                   type="button"
                   onClick={handleTest}
                   disabled={testing}
-                  className="rounded-xl bg-cyan-500/20 border border-cyan-400/30 px-5 py-2.5 text-sm font-semibold text-cyan-300 hover:bg-cyan-500/30 hover:border-cyan-400/50 hover:text-cyan-200 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-[0_0_16px_rgba(6,182,212,0.15)]"
+                  className="rounded-xl bg-white/10 border border-white/20 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/20 hover:border-white/30 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-[0_0_16px_rgba(255,255,255,0.08)]"
                 >
                   {testing ? "Running..." : "Test Prompt"}
                 </button>
@@ -370,7 +370,7 @@ export default function Home() {
                 generating a structured prompt template
               </li>
               <li>
-                Variables like <code className="font-mono text-xs bg-white/[0.08] border border-white/[0.12] text-cyan-300 px-1.5 py-0.5 rounded-md">{`{DOCUMENT}`}</code> become
+                Variables like <code className="font-mono text-xs bg-white/[0.08] border border-white/[0.12] text-zinc-200 px-1.5 py-0.5 rounded-md">{`{DOCUMENT}`}</code> become
                 placeholders you can fill in when testing
               </li>
               <li>
