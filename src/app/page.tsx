@@ -112,9 +112,9 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col relative">
       {/* Fixed gradient background */}
-      <div className="fixed inset-0 bg-gradient-to-br from-slate-950 via-blue-950 to-teal-950 -z-10" />
-      {/* Subtle animated gradient overlay for slow shift effect */}
-      <div className="fixed inset-0 bg-gradient-to-tl from-teal-900/20 via-transparent to-blue-900/20 -z-10 animate-pulse" />
+      <div className="fixed inset-0 bg-black -z-10" />
+
+      <div className="fixed inset-0 bg-gradient-to-br from-zinc-950/80 via-black to-zinc-900/60 -z-10" />
 
       {/* Header */}
       <header className="border-b border-white/[0.08] px-6 py-4 backdrop-blur-md bg-white/[0.03]">
